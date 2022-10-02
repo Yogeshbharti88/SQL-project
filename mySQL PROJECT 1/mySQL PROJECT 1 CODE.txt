@@ -1,0 +1,75 @@
+#Q.1
+CREATE DATABASE ecommerce;
+
+#Q.2
+USE ecommerce; #imported  data from users_data as mentioned in the question
+
+#Q.3
+DESC users_data;
+
+#Q.4
+SELECT * FROM users_data LIMIT 100;
+
+#Q.5
+SELECT COUNT(DISTINCT country,language) FROM users_data;
+
+#Q.6
+SELECT
+COUNT(IF(gender='M',1,NULL)) Male_users,
+COUNT(IF(gender='F',1,NULL)) Female_users
+FROM users_data;
+
+#Q.7
+#a
+SELECT COUNT(hasProfilePicture) Total_user_with_profile_picture FROM users_data WHERE hasProfilePicture='True';
+#b
+SELECT COUNT(hasAnyApp) Total_user_uses_Application FROM users_data WHERE hasAnyApp='True';
+#c
+SELECT COUNT(hasAndroidApp)Total_user_uses_Andrid_app FROM users_data WHERE hasAndroidApp='True';
+#d
+SELECT COUNT(hasIosApp)Total_user_uses_Ios_app FROM users_data WHERE hasIosApp='True';
+
+#Q.8
+SELECT productsBought Buyers,country FROM users_data WHERE productsBought > 0 GROUP BY country ORDER BY productsBought DESC;
+
+#Q.9
+SELECT productsSold Sellers,country FROM users_data WHERE productsSold > 0 GROUP BY country ORDER BY productsSold;
+
+#Q.10
+SELECT productsPassRate Maximum_product_passrate,country FROM users_data GROUP BY productsPassRate  ORDER BY productsPassRate DESC limit 10;
+
+#Q.11
+SELECT language,count(language) users_for_different_language_choice  FROM users_data GROUP BY language;
+
+#Q.12
+SELECT  productsWished Putting_products_in_wishlist,socialProductsLiked Products_liking_socially,
+gender Gender FROM users_data WHERE gender='F'
+UNION 
+SELECT socialProductsLiked Products_liking_socially,productsWished Putting_products_in_wishlist,
+gender Gender  FROM users_data WHERE gender='F';
+
+#Q.13
+SELECT productsSold Seller,productsBought Buyer,gender Gender FROM users_data WHERE  gender='M'
+UNION
+SELECT productsBought Buyer,productsSold Seller,gender Gender FROM users_data WHERE  gender='M';
+
+#Q.14
+SELECT count(productsBought) Buyers,max(productsBought),country FROM users_data;
+
+#Q.15
+SELECT productsSold Seller,country Country_having_zero_number_of_sellers FROM users_data  WHERE productsSold=0 GROUP BY country LIMIT 10;
+
+#Q.16
+SELECT daysSinceLastLogin Users_used_users_data_plateform_recently FROM users_data GROUP BY daysSinceLastLogin ORDER BY daysSinceLastLogin LIMIT 110;
+
+#Q.17
+SELECT count(*) Female_users_who_have_not_logged_in_since_last_100_days FROM users_data  WHERE GENDER='F'and daysSinceLastLogin<=100;
+
+#Q.18
+SELECT gender Gender,count(gender) Female_users_of_each_country,country FROM users_data WHERE gender='F' GROUP BY country;
+
+#Q.19
+SELECT gender Gender,count(gender) Male_users_of_each_country,country FROM users_data WHERE gender='M' GROUP BY country;
+
+#Q.20
+SELECT gender Gender, avg(productsSold) Average_no_of_products_sold,avg(productsBought)Average_no_of_products_bought,count(gender) Male_users ,country FROM users_data WHERE gender='M' GROUP BY country;
